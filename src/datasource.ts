@@ -14,11 +14,27 @@ export class DataSource extends DataSourceWithBackend<MongoDBQuery, MongoDBDataS
     super(instanceSettings);
   }
 
+  replaceDollarSigns(input: string): string {
+    return input.replace(/(\$\w+)":/g, match => '$_' + match.slice(1));
+  }
+
+  revertDollarSignChange(input: string): string {
+    return input.replace(/(\$_\w+)":/g, match => '$' + match.slice(2));
+  }
+
   applyTemplateVariables(query: MongoDBQuery, scopedVars: ScopedVars): Record<string, any> {
     const templateSrv = getTemplateSrv();
+
+    let aggregation = '';
+    if (query.aggregation) {
+      const escapedAggregation = this.replaceDollarSigns(query.aggregation)
+      const replacedAggregation = templateSrv.replace(escapedAggregation, scopedVars, 'regex');
+      aggregation = this.revertDollarSignChange(replacedAggregation);
+    }
+
     return {
       ...query,
-      aggregation: query.aggregation ? templateSrv.replace(query.aggregation, scopedVars, 'json') : '',
+      aggregation: aggregation,
     };
   }
 
