@@ -1,14 +1,7 @@
 import { MongoDBVariableQuery, defaultVariableQuery } from './types';
 import { defaults } from 'lodash';
 import React, { ChangeEvent, PureComponent } from 'react';
-import { 
-  Input,
-  InlineField,
-  InlineFormLabel,
-  InlineFieldRow,
-  CodeEditor,
-} from '@grafana/ui';
-
+import { Input, InlineField, InlineFormLabel, InlineFieldRow, CodeEditor } from '@grafana/ui';
 
 interface VariableQueryProps {
   query: MongoDBVariableQuery;
@@ -50,10 +43,7 @@ export class VariableQueryEditor extends PureComponent<VariableQueryProps> {
     return (
       <>
         <InlineFieldRow>
-          <InlineField
-              labelWidth={this.labelWidth}
-              label="Database.Collection"
-              >
+          <InlineField labelWidth={this.labelWidth} label="Database.Collection">
             <Input
               width={this.longWidth}
               name="database"
@@ -63,9 +53,7 @@ export class VariableQueryEditor extends PureComponent<VariableQueryProps> {
               value={query.database}
             ></Input>
           </InlineField>
-          <InlineField
-              label="."
-              >
+          <InlineField label=".">
             <Input
               width={this.longWidth}
               name="collection"
@@ -76,22 +64,17 @@ export class VariableQueryEditor extends PureComponent<VariableQueryProps> {
             ></Input>
           </InlineField>
         </InlineFieldRow>
-  
+
         <InlineFieldRow>
-           <InlineField
-               label="Field"
-               labelWidth={this.labelWidth}
-               >
-             <Input
-               width={this.longWidth}
-               placeholder="name"
-               onChange={this.onFieldNameChange}
-               value={query.fieldName}
-             ></Input>
-           </InlineField>
-           <InlineField
-              label=":"
-              >
+          <InlineField label="Field" labelWidth={this.labelWidth}>
+            <Input
+              width={this.longWidth}
+              placeholder="name"
+              onChange={this.onFieldNameChange}
+              value={query.fieldName}
+            ></Input>
+          </InlineField>
+          <InlineField label=":">
             <Input
               width={this.longWidth}
               placeholder="type"
@@ -100,7 +83,7 @@ export class VariableQueryEditor extends PureComponent<VariableQueryProps> {
             ></Input>
           </InlineField>
         </InlineFieldRow>
-  
+
         <InlineFormLabel
           width={this.labelWidth}
           tooltip="Argument to db.collection.aggregate(...), a JSON array of pipeline stage objects. Helper functions like new Date() or ObjectId() are not supported, consult the MongoDB manual at https://www.mongodb.com/docs/manual/reference/mongodb-extended-json/ to see how to represent these functions in pure JSON"
@@ -117,4 +100,4 @@ export class VariableQueryEditor extends PureComponent<VariableQueryProps> {
       </>
     );
   }
-};
+}

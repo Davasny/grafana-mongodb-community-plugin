@@ -12,10 +12,7 @@
       "name": "Andrew Melnick",
       "url": "https://github.com/meln5674"
     },
-    "keywords": [
-      "mongodb",
-      "nosql"
-    ],
+    "keywords": ["mongodb", "nosql"],
     "logos": {
       "small": "img/logo.svg",
       "large": "img/logo.svg"

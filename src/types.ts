@@ -18,52 +18,50 @@ export interface MongoDBQuery extends DataQuery {
 }
 
 export enum MongoDBQueryType {
-    Timeseries = "Timeseries",
-    Table = "Table",
-};
+  Timeseries = 'Timeseries',
+  Table = 'Table',
+}
 
 export const defaultQuery: Partial<MongoDBQuery> = {
-    database: "my_db",
-    collection: "my_collection",
-    queryType: MongoDBQueryType.Timeseries,
-    timestampField: "timestamp",
-    timestampFormat: "",
-    labelFields: [ "sensorID" ],
-    legendFormat: "",
-    valueFields: [ "measurement" ],
-    valueFieldTypes: [ "float64" ],
-    aggregation: JSON.stringify([
-        { 
-            "$project": { 
-                "timestamp": 1, 
-                "sensorID": "$metadata.sensorID",
-                "measurement": 1, 
-                "_id": 0 
-            }
-        }
-    ]),
-    autoTimeBound: false,
-    autoTimeSort: false,
-    schemaInference: false,
-    schemaInferenceDepth: 20,
+  database: 'my_db',
+  collection: 'my_collection',
+  queryType: MongoDBQueryType.Timeseries,
+  timestampField: 'timestamp',
+  timestampFormat: '',
+  labelFields: ['sensorID'],
+  legendFormat: '',
+  valueFields: ['measurement'],
+  valueFieldTypes: ['float64'],
+  aggregation: JSON.stringify([
+    {
+      $project: {
+        timestamp: 1,
+        sensorID: '$metadata.sensorID',
+        measurement: 1,
+        _id: 0,
+      },
+    },
+  ]),
+  autoTimeBound: false,
+  autoTimeSort: false,
+  schemaInference: false,
+  schemaInferenceDepth: 20,
 };
 
 export interface MongoDBVariableQuery {
-    database: string;
-    collection: string;
-    aggregation: string;
-    fieldName: string;
-    fieldType: string;
-};
+  database: string;
+  collection: string;
+  aggregation: string;
+  fieldName: string;
+  fieldType: string;
+}
 
 export const defaultVariableQuery: Partial<MongoDBVariableQuery> = {
-    database: "my_db",
-    collection: "my_collection",
-    aggregation: JSON.stringify([
-        {"$group":{"_id":"$label", "count": {"$sum":1}}}
-    ]),
-    fieldName: "_id",
-    fieldType: "string"
+  database: 'my_db',
+  collection: 'my_collection',
+  aggregation: JSON.stringify([{ $group: { _id: '$label', count: { $sum: 1 } } }]),
+  fieldName: '_id',
+  fieldType: 'string',
 };
 
 /**
@@ -82,7 +80,7 @@ export interface MongoDBDataSourceOptions extends DataSourceJsonData {
  * Value that is used in the backend, but never sent over HTTP to the frontend
  */
 export interface MongoDBSecureJsonData {
-    username?: string;
-    password?: string;
-    tlsCertificateKey?: string;
+  username?: string;
+  password?: string;
+  tlsCertificateKey?: string;
 }

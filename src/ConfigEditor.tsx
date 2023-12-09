@@ -13,7 +13,6 @@ import {
 import { DataSourcePluginOptionsEditorProps } from '@grafana/data';
 import { MongoDBDataSourceOptions, MongoDBSecureJsonData } from './types';
 
-
 interface Props extends DataSourcePluginOptionsEditorProps<MongoDBDataSourceOptions> {}
 
 interface State {}
@@ -93,8 +92,6 @@ export class ConfigEditor extends PureComponent<Props, State> {
     onOptionsChange({ ...options, secureJsonData });
   };
 
-
-
   onResetCredential = () => {
     const { onOptionsChange, options } = this.props;
     onOptionsChange({
@@ -110,10 +107,10 @@ export class ConfigEditor extends PureComponent<Props, State> {
 
   readonly shortWidth = 24;
   readonly longWidth = 56;
-  readonly beginCert = "-----BEGIN CERTIFICATE-----";
-  readonly endCert = "-----END CERTIFICATE-----";
-  readonly beginKey = "-----BEGIN RSA PRIVATE KEY-----";
-  readonly endKey = "-----END RSA PRIVATE KEY-----";
+  readonly beginCert = '-----BEGIN CERTIFICATE-----';
+  readonly endCert = '-----END CERTIFICATE-----';
+  readonly beginKey = '-----BEGIN RSA PRIVATE KEY-----';
+  readonly endKey = '-----END RSA PRIVATE KEY-----';
 
   renderCredentials() {
     const { options } = this.props;
@@ -146,7 +143,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
           </InlineField>
         </InlineFieldRow>
       </>
-    )
+    );
   }
 
   renderTls() {
@@ -156,14 +153,11 @@ export class ConfigEditor extends PureComponent<Props, State> {
     return (
       <>
         <Field label="TLS Enabled">
-          <Switch
-            value={jsonData.tls || false}
-            onChange={this.onTLSChange}
-          />
+          <Switch value={jsonData.tls || false} onChange={this.onTLSChange} />
         </Field>
-        { jsonData.tls ? this.renderTlsFields() : null }
+        {jsonData.tls ? this.renderTlsFields() : null}
       </>
-    )
+    );
   }
 
   renderTlsFields() {
@@ -173,23 +167,20 @@ export class ConfigEditor extends PureComponent<Props, State> {
     return (
       <>
         <Field label="Insecure (Skip Verification)">
-          <Switch
-            value={jsonData.tlsInsecure || false}
-            onChange={this.onTLSInsecureChange}
-          />
+          <Switch value={jsonData.tlsInsecure || false} onChange={this.onTLSInsecureChange} />
         </Field>
-        { jsonData.tlsInsecure ? null : this.renderTlsVerification() }
-        { this.renderTlsClient() }
+        {jsonData.tlsInsecure ? null : this.renderTlsVerification()}
+        {this.renderTlsClient()}
       </>
-    )
+    );
   }
 
   renderTlsVerification() {
     const { options } = this.props;
     const { jsonData } = options;
-    
+
     return (
-      <> 
+      <>
         <Field label="TLS Certificate Authority">
           <TextArea
             value={jsonData.tlsCa || ''}
@@ -199,10 +190,10 @@ export class ConfigEditor extends PureComponent<Props, State> {
           />
         </Field>
         <InlineField
-            labelWidth={this.shortWidth}
-            label="Expected Server Name"
-            tooltip="If your server's certificates are for a different hostname than you use to connect, specify that different hostname here"
-            >
+          labelWidth={this.shortWidth}
+          label="Expected Server Name"
+          tooltip="If your server's certificates are for a different hostname than you use to connect, specify that different hostname here"
+        >
           <Input
             width={this.longWidth}
             name="tlsServerName"
@@ -213,7 +204,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
           ></Input>
         </InlineField>
       </>
-    )
+    );
   }
 
   renderTlsClient() {
@@ -231,7 +222,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
             cols={this.longWidth}
           />
         </Field>
-        <br/>
+        <br />
         <Field label="TLS Certificate Key">
           <SecretTextArea
             value={secureJsonData.tlsCertificateKey || ''}
@@ -243,7 +234,7 @@ export class ConfigEditor extends PureComponent<Props, State> {
           />
         </Field>
       </>
-    )
+    );
   }
 
   render() {
@@ -263,9 +254,9 @@ export class ConfigEditor extends PureComponent<Props, State> {
               placeholder="mongodb[+svc]://hostname:port[,hostname:port][/?key=value]"
             ></Input>
           </InlineField>
-          { this.renderCredentials() }
-          { this.renderTls() }
-        </FieldSet>            
+          {this.renderCredentials()}
+          {this.renderTls()}
+        </FieldSet>
       </>
     );
   }

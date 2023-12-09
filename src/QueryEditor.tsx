@@ -1,7 +1,7 @@
 import { defaults, zip } from 'lodash';
 
 import React, { ChangeEvent, PureComponent, SyntheticEvent } from 'react';
-import { 
+import {
   Input,
   FieldSet,
   InlineField,
@@ -24,15 +24,15 @@ export class QueryEditor extends PureComponent<Props> {
 
   readonly queryTypeOptions = [
     {
-        label: "Timeseries",
-        value: MongoDBQueryType.Timeseries,
-        description: "Return time-indexed series of values, distinguished by a set of labels"
+      label: 'Timeseries',
+      value: MongoDBQueryType.Timeseries,
+      description: 'Return time-indexed series of values, distinguished by a set of labels',
     },
     {
-        label: "Table",
-        value: MongoDBQueryType.Table,
-        description: "Return arbitrary rows for a table or further processing"
-    }
+      label: 'Table',
+      value: MongoDBQueryType.Table,
+      description: 'Return arbitrary rows for a table or further processing',
+    },
   ];
 
   readonly defaultQueryType: MongoDBQueryType = MongoDBQueryType.Timeseries;
@@ -48,14 +48,12 @@ export class QueryEditor extends PureComponent<Props> {
     // executes the query
     onRunQuery();
   };
-  onQueryTypeChange = (
-        query: Props['query'],
-        onChange: Props['onChange'],
-        onRunQuery: Props['onRunQuery'],
-  ) => (newValue: SelectableValue) => {
-    onChange({ ...query, queryType: newValue.value });
-    onRunQuery();
-  };
+  onQueryTypeChange =
+    (query: Props['query'], onChange: Props['onChange'], onRunQuery: Props['onRunQuery']) =>
+    (newValue: SelectableValue) => {
+      onChange({ ...query, queryType: newValue.value });
+      onRunQuery();
+    };
 
   onTimestampFieldChange = (event: ChangeEvent<HTMLInputElement>) => {
     const { onChange, query, onRunQuery } = this.props;
@@ -71,10 +69,9 @@ export class QueryEditor extends PureComponent<Props> {
     onRunQuery();
   };
 
-  
   onLabelFieldChange = (index: number) => (event: ChangeEvent<HTMLInputElement>) => {
     const { onChange, query, onRunQuery } = this.props;
-    let newLabelFields = Array.from(query.labelFields)
+    let newLabelFields = Array.from(query.labelFields);
     newLabelFields.splice(index, 1, event.target.value);
     onChange({ ...query, labelFields: newLabelFields });
     // executes the query
@@ -83,8 +80,8 @@ export class QueryEditor extends PureComponent<Props> {
 
   onLabelFieldAppend = () => {
     const { onChange, query, onRunQuery } = this.props;
-    let newLabelFields = Array.from(query.labelFields)
-    newLabelFields.splice(query.labelFields.length, 0, "");
+    let newLabelFields = Array.from(query.labelFields);
+    newLabelFields.splice(query.labelFields.length, 0, '');
     onChange({ ...query, labelFields: newLabelFields });
     // executes the query
     onRunQuery();
@@ -92,7 +89,7 @@ export class QueryEditor extends PureComponent<Props> {
 
   onLabelFieldRemove = (index: number) => () => {
     const { onChange, query, onRunQuery } = this.props;
-    let newLabelFields = Array.from(query.labelFields)
+    let newLabelFields = Array.from(query.labelFields);
     newLabelFields.splice(index, 1);
     onChange({ ...query, labelFields: newLabelFields });
     // executes the query
@@ -141,8 +138,8 @@ export class QueryEditor extends PureComponent<Props> {
     const { onChange, query, onRunQuery } = this.props;
     let newValueFields = Array.from(query.valueFields);
     let newValueFieldTypes = Array.from(query.valueFieldTypes);
-    newValueFields.splice(query.valueFields.length, 0, "");
-    newValueFieldTypes.splice(query.valueFieldTypes.length, 0, "");
+    newValueFields.splice(query.valueFields.length, 0, '');
+    newValueFieldTypes.splice(query.valueFieldTypes.length, 0, '');
     onChange({ ...query, valueFields: newValueFields, valueFieldTypes: newValueFieldTypes });
     // executes the query
     onRunQuery();
@@ -158,8 +155,6 @@ export class QueryEditor extends PureComponent<Props> {
     // executes the query
     onRunQuery();
   };
-
-
 
   onAutoTimeBoundChange = (event: SyntheticEvent<HTMLInputElement>) => {
     const { onChange, query, onRunQuery } = this.props;
@@ -188,7 +183,6 @@ export class QueryEditor extends PureComponent<Props> {
     // executes the query
     onRunQuery();
   };
-
 
   render() {
     const query = defaults(this.props.query, defaultQuery);
@@ -219,26 +213,25 @@ export class QueryEditor extends PureComponent<Props> {
               ></Input>
             </InlineField>
           </InlineFieldRow>
-          <InlineField
-              labelWidth={this.labelWidth}
-              tooltip="Type of query to execute"
-              label="QueryType"
-              >
+          <InlineField labelWidth={this.labelWidth} tooltip="Type of query to execute" label="QueryType">
             <Select
               options={this.queryTypeOptions}
-              value={this.queryTypeOptions.find((queryType) => queryType.value === query.queryType) ?? this.queryTypeOptions[0]}
+              value={
+                this.queryTypeOptions.find((queryType) => queryType.value === query.queryType) ??
+                this.queryTypeOptions[0]
+              }
               onChange={this.onQueryTypeChange(query, onChange, onRunQuery)}
-                width={this.longWidth}
+              width={this.longWidth}
             ></Select>
           </InlineField>
 
-          { (query.queryType || this.defaultQueryType) === MongoDBQueryType.Timeseries ? (
+          {(query.queryType || this.defaultQueryType) === MongoDBQueryType.Timeseries ? (
             <>
               <InlineField
-                  labelWidth={this.labelWidth}
-                  label="Timestamp Field"
-                  tooltip="Field to expect in every document containing the timestamp"
-                  >
+                labelWidth={this.labelWidth}
+                label="Timestamp Field"
+                tooltip="Field to expect in every document containing the timestamp"
+              >
                 <Input
                   width={this.longWidth}
                   value={query.timestampField || ''}
@@ -249,10 +242,10 @@ export class QueryEditor extends PureComponent<Props> {
                 ></Input>
               </InlineField>
               <InlineField
-                  labelWidth={this.labelWidth}
-                  label="Timestamp Format"
-                  tooltip="If blank, assume timestamps are native BSON dates. Otherwise, parse the timestamp as a string in the format described here: https://pkg.go.dev/time#Parse"
-                  >
+                labelWidth={this.labelWidth}
+                label="Timestamp Format"
+                tooltip="If blank, assume timestamps are native BSON dates. Otherwise, parse the timestamp as a string in the format described here: https://pkg.go.dev/time#Parse"
+              >
                 <Input
                   width={this.longWidth}
                   value={query.timestampFormat || ''}
@@ -263,73 +256,72 @@ export class QueryEditor extends PureComponent<Props> {
                 ></Input>
               </InlineField>
               <InlineFormLabel
-                  width={this.labelWidth}
-                  tooltip="Each unique combination of these fields defines a separate time series. Nested fields are not supported, please project to a flat document"
+                width={this.labelWidth}
+                tooltip="Each unique combination of these fields defines a separate time series. Nested fields are not supported, please project to a flat document"
               >
                 Label Fields
               </InlineFormLabel>
               <div>
-                  {query.labelFields.map((field, index) => (
-                      <InlineFieldRow key={index}>
-                          <Input
-                            width={this.longWidth}
-                            onChange={this.onLabelFieldChange(index)}
-                            value={field}
-                            placeholder="name"
-                          ></Input>
-                          <Button onClick={this.onLabelFieldRemove(index)}>-</Button>
-                      </InlineFieldRow>
-                  ))}
-                  <Button onClick={this.onLabelFieldAppend}>+</Button>
+                {query.labelFields.map((field, index) => (
+                  <InlineFieldRow key={index}>
+                    <Input
+                      width={this.longWidth}
+                      onChange={this.onLabelFieldChange(index)}
+                      value={field}
+                      placeholder="name"
+                    ></Input>
+                    <Button onClick={this.onLabelFieldRemove(index)}>-</Button>
+                  </InlineFieldRow>
+                ))}
+                <Button onClick={this.onLabelFieldAppend}>+</Button>
               </div>
               <InlineField
-                    labelWidth={this.labelWidth}
-                    label="Legend Format"
-                    tooltip={"Series name override. Replacements are:\n{{.Value}}: Value field name.\n{{.Labels.field_name}}: Value of the label with name 'field_name'\n{{.Labels}}: key=value,... for all labels\nSee https://pkg.go.dev/text/template for full syntax.\nFunctions from https://masterminds.github.io/sprig/ are provided"}
+                labelWidth={this.labelWidth}
+                label="Legend Format"
+                tooltip={
+                  "Series name override. Replacements are:\n{{.Value}}: Value field name.\n{{.Labels.field_name}}: Value of the label with name 'field_name'\n{{.Labels}}: key=value,... for all labels\nSee https://pkg.go.dev/text/template for full syntax.\nFunctions from https://masterminds.github.io/sprig/ are provided"
+                }
               >
-                <Input
-                  value={query.legendFormat || ""}
-                  onChange={this.onLegendFormatChange}
-                />
+                <Input value={query.legendFormat || ''} onChange={this.onLegendFormatChange} />
               </InlineField>
             </>
-          ) : false }
-          { (query.queryType || this.defaultQueryType) === MongoDBQueryType.Timeseries ? (
+          ) : (
+            false
+          )}
+          {(query.queryType || this.defaultQueryType) === MongoDBQueryType.Timeseries ? (
             <>
               <InlineField
-                  label="Automatic Time-Bound"
-                  labelWidth={this.labelWidth}
-                  tooltip="Add a stage at the end of your pipeline to $match documents where Timestamp Field is within the current dashboard time range"
-                  >
-                <InlineSwitch
-                  value={query.autoTimeBound || false}
-                  onChange={this.onAutoTimeBoundChange}
-                ></InlineSwitch>
+                label="Automatic Time-Bound"
+                labelWidth={this.labelWidth}
+                tooltip="Add a stage at the end of your pipeline to $match documents where Timestamp Field is within the current dashboard time range"
+              >
+                <InlineSwitch value={query.autoTimeBound || false} onChange={this.onAutoTimeBoundChange}></InlineSwitch>
               </InlineField>
-              { query.autoTimeBound ? (
+              {query.autoTimeBound ? (
                 <InlineField
-                    label="Time-Bound at Start"
-                    labelWidth={this.labelWidth}
-                    tooltip="Instead add the automatic time bound $match stage at the beginning of your pipeline. This only works if your timestamp field is present and correctly formatted in your collection, but can improve performance by not processing records outside of the current time range"
-                    >
+                  label="Time-Bound at Start"
+                  labelWidth={this.labelWidth}
+                  tooltip="Instead add the automatic time bound $match stage at the beginning of your pipeline. This only works if your timestamp field is present and correctly formatted in your collection, but can improve performance by not processing records outside of the current time range"
+                >
                   <InlineSwitch
                     value={query.autoTimeBoundAtStart || false}
                     onChange={this.onAutoTimeBoundAtStartChange}
                   ></InlineSwitch>
-                </InlineField>     
-              ) : false }
+                </InlineField>
+              ) : (
+                false
+              )}
               <InlineField
-                  label="Automatic Time-Sort"
-                  labelWidth={this.labelWidth}
-                  tooltip="Add a stage at the end to $sort documents ascending by Timestamp Field"
-                  >
-                <InlineSwitch
-                  value={query.autoTimeSort || false}
-                  onChange={this.onAutoTimeSortChange}
-                ></InlineSwitch>
+                label="Automatic Time-Sort"
+                labelWidth={this.labelWidth}
+                tooltip="Add a stage at the end to $sort documents ascending by Timestamp Field"
+              >
+                <InlineSwitch value={query.autoTimeSort || false} onChange={this.onAutoTimeSortChange}></InlineSwitch>
               </InlineField>
             </>
-          ) : false }
+          ) : (
+            false
+          )}
 
           <div className="gf-form">
             <InlineFormLabel
@@ -338,55 +330,53 @@ export class QueryEditor extends PureComponent<Props> {
             >
               Infer Schema
             </InlineFormLabel>
-            <InlineSwitch
-              value={query.schemaInference || false}
-              onChange={this.onSchemaInferenceChange}
-            />
+            <InlineSwitch value={query.schemaInference || false} onChange={this.onSchemaInferenceChange} />
           </div>
 
-          { query.schemaInference ?
+          {query.schemaInference ? (
             <>
               <InlineField
-                    labelWidth={this.labelWidth}
-                    label="Schema Inference Depth"
-                    tooltip="How many documents to consider for inference before assuming no new fields will be present. If all documents have the same fields, you can set this to 1"
+                labelWidth={this.labelWidth}
+                label="Schema Inference Depth"
+                tooltip="How many documents to consider for inference before assuming no new fields will be present. If all documents have the same fields, you can set this to 1"
               >
                 <Input
-                    value={`${query.schemaInferenceDepth}`}
-                    onChange={this.onSchemaInferenceDepthChange}
-                    type="number"
+                  value={`${query.schemaInferenceDepth}`}
+                  onChange={this.onSchemaInferenceDepthChange}
+                  type="number"
                 />
               </InlineField>
             </>
-            :
+          ) : (
             <>
               <InlineFormLabel
                 width={this.labelWidth}
                 tooltip="These fields contain measurements or other recorded values. You must also specify the data types (float64, uint64, string, etc) for each field. Prefix with a star if a field may not appear in every document for a given series. See https://pkg.go.dev/github.com/grafana/grafana-plugin-sdk-go/data#FieldType for a list of valid types. Nested fields are not supported, please project to a flat document"
-              >Value Fields</InlineFormLabel>
+              >
+                Value Fields
+              </InlineFormLabel>
               {zip(query.valueFields, query.valueFieldTypes).map((field, index) => (
-                  <InlineFieldRow key={index}>
-                      <Input
-                        onChange={this.onValueFieldChange(index)}
-                        width={this.longWidth}
-                        value={field[0]}
-                        placeholder="name"
-                      ></Input>
-                      <InlineField label=":">
-                          <Input
-                            onChange={this.onValueFieldTypeChange(index)}
-                            width={this.longWidth}
-                            value={field[1]}
-                            placeholder="type"
-                          ></Input>
-                      </InlineField>
-                      <Button onClick={this.onValueFieldRemove(index)}>-</Button>
-                  </InlineFieldRow>
+                <InlineFieldRow key={index}>
+                  <Input
+                    onChange={this.onValueFieldChange(index)}
+                    width={this.longWidth}
+                    value={field[0]}
+                    placeholder="name"
+                  ></Input>
+                  <InlineField label=":">
+                    <Input
+                      onChange={this.onValueFieldTypeChange(index)}
+                      width={this.longWidth}
+                      value={field[1]}
+                      placeholder="type"
+                    ></Input>
+                  </InlineField>
+                  <Button onClick={this.onValueFieldRemove(index)}>-</Button>
+                </InlineFieldRow>
               ))}
               <Button onClick={this.onValueFieldAppend}>+</Button>
             </>
-          }
-
+          )}
         </FieldSet>
         <InlineFormLabel
           width={this.labelWidth}
@@ -394,9 +384,7 @@ export class QueryEditor extends PureComponent<Props> {
         >
           Aggregation
         </InlineFormLabel>
-        <div 
-          style={{ resize: "vertical" }}
-        >
+        <div style={{ resize: 'vertical' }}>
           <CodeEditor
             height="300px"
             showLineNumbers={true}
